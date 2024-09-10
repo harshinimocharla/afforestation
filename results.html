@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afforestation Results</title>
+</head>
+<body>
+    <h1>Potential Lands for Afforestation</h1>
+    <div id="map" style="height: 500px;"></div>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([20.5937, 78.9629], 5);  // Center map on India
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        {% for land in suitable_lands %}
+        L.marker([{{ land[0] }}, {{ land[1] }}]).addTo(map)
+            .bindPopup("<b>Soil Quality:</b> {{ land[2] }}")
+            .openPopup();
+        {% endfor %}
+    </script>
+</body>
+</html>
